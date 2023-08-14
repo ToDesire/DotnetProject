@@ -29,17 +29,17 @@ namespace StockAPI.Controllers
 
             return most_ordered;
         }
-        [HttpGet("Monthly")]
+        [HttpGet("CurrentMonth")]
         public async Task<ActionResult<List<CurrentMonthMostOrderedTopThree>>> GetMonthlyRank()
         {
-            var sqlQuery = @"SELECT p.design AS product_name, SUM(d.quantite_sortie) AS ordered_quantity 
+            var sqlQuery = @"SELECT p.design AS product_name, SUM(d.quantite_sortie) AS ordered_quantity, p.description AS product_description, p.image AS product_image, COUNT(d.num_facture) AS order_number
                             FROM Products p 
                             INNER JOIN Destockages d ON p.num_produit = d.num_produit 
                             INNER JOIN Sorties s ON d.num_facture = s.num_facture 
                             WHERE strftime('%m',s.dateSortie) = strftime('%m',CURRENT_DATE) 
                             GROUP BY p.design 
                             ORDER BY ordered_quantity DESC 
-                            LIMIT 3; 
+                            LIMIT 3;
                         ";
 
             var most_ordered_monthly = await _context.TopThreeOrders.FromSqlRaw(sqlQuery).ToListAsync();

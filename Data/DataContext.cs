@@ -26,6 +26,7 @@ namespace StockAPI.Data
             public DbSet<Record> Records { get; set; }
             public DbSet<Order> Orders { get; set; }
             public DbSet<CurrentMonthMostOrderedTopThree> TopThreeOrders { get; set; }
+            public DbSet<CurrentMonthMostCommandedTopThree> TopThreeCommands { get; set; }
 
             protected override void OnModelCreating(ModelBuilder modelBuilder){
                 modelBuilder.Entity<Stockage>()
@@ -56,6 +57,7 @@ namespace StockAPI.Data
                 modelBuilder.Entity<Record>().HasNoKey();
                 modelBuilder.Entity<Order>().HasNoKey();
                 modelBuilder.Entity<CurrentMonthMostOrderedTopThree>().HasNoKey();
+                modelBuilder.Entity<CurrentMonthMostCommandedTopThree>().HasNoKey();
             }
 
         }
